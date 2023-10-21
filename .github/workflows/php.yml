@@ -31,12 +31,11 @@ jobs:
           mkdir -p database
           touch database/database.sqlite
           
-      - name: Create Database
+      - name: Create Database and run tests
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
-        run: php artisan migrate
-         
-      - name: Execute tests
-        run: php artisan test
+        run: |
+          php artisan migrate
+          php artisan test
 
