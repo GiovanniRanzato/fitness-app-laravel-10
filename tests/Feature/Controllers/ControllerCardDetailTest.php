@@ -13,6 +13,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ControllerCardDetailTest extends TestCase
 {
+    use RefreshDatabase;
+     
     private $card_detail_attributes = [
         'id',
         'quantity',
