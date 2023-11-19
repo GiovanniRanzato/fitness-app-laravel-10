@@ -74,6 +74,7 @@ class UserController extends Controller
             return new Response(['message' => $access->message()], 401);
 
         $data = $request->all();
+        $data['password'] = bcrypt(uniqid());
         return new UserResource(User::create($data));
     }
 
