@@ -38,7 +38,7 @@ Route::group(['prefix' => 'v1', 'middleware' => [\Illuminate\Http\Middleware\Han
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::apiResource('users', UserController::class,              ['only' => ['index', 'show', 'update', 'destroy']]);
+    Route::apiResource('users', UserController::class,              ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
     Route::apiResource('categories', CategoryController::class,     ['only' => ['index', 'show', 'store', 'update', 'destroy']] );
     Route::apiResource('cards', CardController::class,              ['only' => ['index', 'show', 'store', 'update', 'destroy']] );
     Route::apiResource('card-details', CardDetailController::class, ['only' => ['store', 'update', 'destroy']] );
