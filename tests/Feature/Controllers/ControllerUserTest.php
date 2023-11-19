@@ -103,7 +103,7 @@ class ControllerUserTest extends TestCase
         ]);
     }
 
-    public function test_admin_should_not_create_other_users()
+    public function test_admin_should_create_other_users()
     {
         $admin = User::factory()->create(['role' => '1']);
         $token = $admin->createAuthToken();
@@ -111,16 +111,20 @@ class ControllerUserTest extends TestCase
         $create_data = $this->get_user_data();
 
         $response = $this->post('api/v1/users/', $create_data, ['Accept' => 'application/json', 'Authorization' => 'Bearer ' . $token]);
+        $created_user = User::find($response->json()['data']['attributes']['id']);
+        
+        $created_user->tokens()->delete();
+        $created_user->delete();
+        
         $admin->tokens()->delete();
         $admin->delete();
-
-        $response->assertStatus(405);
+        
+        $response->assertStatus(201);
         $response->assertJsonStructure([
-            'message',
-            'exception',
-            'file',
-            'line',
-            'trace'
+            'data' => [
+                'attributes' => $this->user_attributes,
+                'included'
+            ],
         ]);
     }
 
@@ -222,13 +226,9 @@ class ControllerUserTest extends TestCase
         $trainer->tokens()->delete();
         $trainer->delete();
 
-        $response->assertStatus(405);
+        $response->assertStatus(401);
         $response->assertJsonStructure([
-            'message',
-            'exception',
-            'file',
-            'line',
-            'trace'
+            'message'
         ]);
     }
 
@@ -315,13 +315,9 @@ class ControllerUserTest extends TestCase
         $user->tokens()->delete();
         $user->delete();
 
-        $response->assertStatus(405);
+        $response->assertStatus(401);
         $response->assertJsonStructure([
-            'message',
-            'exception',
-            'file',
-            'line',
-            'trace'
+            'message'
         ]);
     }
 

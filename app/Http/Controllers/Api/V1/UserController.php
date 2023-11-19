@@ -62,6 +62,22 @@ class UserController extends Controller
     }
 
     /**
+     * Store a new resource in storage.
+     *
+     * @param  \App\Http\Requests\V1\StoreUserRequest  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function store(UpdateUserRequest $request, User $user) {
+        $access = Gate::inspect('user-create');
+        if (!$access->allowed()) 
+            return new Response(['message' => $access->message()], 401);
+
+        $data = $request->all();
+        return new UserResource(User::create($data));
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\V1\UpdateUserRequest  $request

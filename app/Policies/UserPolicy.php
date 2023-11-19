@@ -61,6 +61,9 @@ class UserPolicy
      */
     public function create(User $user)
     {
+        if($user->isAdmin()) 
+            return Response::allow();
+
         return Response::deny($this->messages['not_allowed']);
     }
 
