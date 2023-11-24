@@ -35,9 +35,6 @@ class UserController extends Controller
         $results = User::where($filterItems);
         $results = $results->with("category");
         return new UserCollection($results->paginate()->appends($request->query()));
-
-            
-        
     }
 
     /**

@@ -17,7 +17,7 @@ class ExerciseResource extends JsonResource
     {
         return [
             'attributes' => [
-                'id'            => $this->id,
+                'id'           => $this->id,
                 'name'         => $this->name,
                 'description'  => $this->description,
                 'media_url'    => $this->media_url,
