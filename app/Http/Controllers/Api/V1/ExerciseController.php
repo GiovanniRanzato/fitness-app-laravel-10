@@ -76,5 +76,8 @@ class ExerciseController extends Controller
         $access = Gate::inspect('exercise-delete', $exercise);
         if (!$access->allowed()) 
             return new Response(['message' => $access->message()], 401);
+        $exercise->delete();
+        return new Response(['message' => 'deleted'], 200);
+
     }
 }
