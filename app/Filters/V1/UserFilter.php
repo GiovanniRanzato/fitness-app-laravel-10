@@ -1,14 +1,21 @@
 <?php
 
 namespace App\Filters\V1;
+use Illuminate\Http\Request;
 
-use App\Filters\ApiFilter;
-
-class UserFilter extends ApiFilter
+class UserFilter
 {
-    protected $safeParams = [
-        'name' => ['eq', 'like'],
-        'email' => ['eq', 'like'],
-    ];
+    public function applyFilters(Request $request)
+    {
+        if (!$request->has('search'))
+            return function ($query) { $query; };
 
+        $searchValue = $request->input('search');
+    
+        return function ($query) use ($searchValue) {
+            $query->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('last_name', 'like', '%' . $searchValue . '%')
+            ->orWhere('email', 'like', '%' . $searchValue . '%');
+        };
+    }
 }

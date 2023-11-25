@@ -341,4 +341,37 @@ class ControllerUserTest extends TestCase
         $response->assertJson(['message' => 'Access denied: you are not allowed.']);
         $response->assertStatus(401);
     }
+
+    public function test_trainer_should_search_users_data()
+    {
+        $admin = User::factory()->create(['role' => '2']);
+        $token = $admin->createAuthToken();
+
+        $userToSearch = User::factory()->create(['role' => '0']);
+        $response = $this->get('api/v1/users?search='.$userToSearch->name, ['Accept' => 'application/json', 'Authorization' => 'Bearer ' . $token]);
+        
+
+        $admin->tokens()->delete();
+        $admin->delete();
+        $userToSearch->tokens()->delete();
+        $userToSearch->delete();
+
+        $response->assertJsonStructure([
+            'data' => [
+                [
+                    'attributes' => $this->user_attributes,
+                    'included'
+                ]
+            ]
+        ]);
+        $response->assertStatus(200);
+        $results = $response->json();
+
+        foreach($results['data'] as $result) {
+            $isValid = strpos($result['attributes']['name'], $userToSearch->name) !== false ? true : false;
+            $isValid = $isValid || strpos($result['attributes']['last_name'], $userToSearch->name) !== false ? true : false;
+            $isValid = $isValid || strpos($result['attributes']['email'], $userToSearch->name) !== false ? true : false;
+            $this->assertTrue($isValid);
+        }
+    }
 }

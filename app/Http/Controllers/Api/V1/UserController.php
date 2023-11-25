@@ -31,8 +31,8 @@ class UserController extends Controller
             return new Response(['message' => $access->message()], 401);
 
         $filter = new UserFilter();
-        $filterItems = $filter->transform($request);
-        $results = User::where($filterItems);
+        $query = $filter->applyFilters($request);
+        $results = User::where($query);
         $results = $results->with("category");
         return new UserCollection($results->paginate()->appends($request->query()));
     }
