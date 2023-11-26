@@ -25,9 +25,9 @@ class StoreCardRequest extends FormRequest
     {
         return [
             'name'      => ['string','required'],
-            'disabled'  => ['boolean'],
-            'date_from' => ['string'],
-            'date_to'   => ['string'],
+            'disabled'  => ['boolean','nullable'],
+            'date_from' => ['string','nullable'],
+            'date_to'   => ['string','nullable'],
             'user_id'   => ['exists:users,id'],
         ];
     }
