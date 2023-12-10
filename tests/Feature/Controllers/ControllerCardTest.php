@@ -54,7 +54,16 @@ class ControllerCardTest extends TestCase
 
         $response->assertJsonStructure([
             'data' => [
-                'attributes' => $this->card_attributes
+                'attributes' => $this->card_attributes,
+                'card_details' => [
+                    '*' => [
+                        'attributes',
+                        'exercise' => [
+                            'attributes'
+                        ]
+                    ]
+                ],
+                'user' => ['attributes']
             ]
         ]);
     }
@@ -96,7 +105,16 @@ class ControllerCardTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
-                    'attributes' => $this->card_attributes
+                    'attributes' => $this->card_attributes,
+                    'card_details' => [
+                        '*' => [
+                            'attributes',
+                            'exercise' => [
+                                'attributes'
+                            ]
+                        ]
+                    ],
+                    'user' => ['attributes']
                 ]
             ],
             'links',
@@ -122,7 +140,16 @@ class ControllerCardTest extends TestCase
         $response->assertStatus(201);
         $response->assertJsonStructure([
             'data' => [
-                'attributes' => $this->card_attributes
+                'attributes' => $this->card_attributes,
+                'card_details' => [
+                    '*' => [
+                        'attributes',
+                        'exercise' => [
+                            'attributes'
+                        ]
+                    ]
+                ],
+                'user' => ['attributes']
             ]
         ]);
         $this->assert_stored_card_equals_card_data($stored_data, $card_data);
@@ -145,7 +172,16 @@ class ControllerCardTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'data' => [
-                'attributes' => $this->card_attributes
+                'attributes' => $this->card_attributes,
+                'card_details' => [
+                    '*' => [
+                        'attributes',
+                        'exercise' => [
+                            'attributes'
+                        ]
+                    ]
+                ],
+                'user' => ['attributes']
             ]
         ]);
         $this->assert_stored_card_equals_card_data($stored_data, $card_data);
@@ -197,7 +233,18 @@ class ControllerCardTest extends TestCase
         
         $response->assertJsonStructure([
             'data' => [
-               ['attributes' => $this->card_attributes]
+                [
+                    'attributes' => $this->card_attributes,
+                    'card_details' => [
+                        '*' => [
+                            'attributes',
+                            'exercise' => [
+                                'attributes'
+                            ]
+                        ]
+                    ],
+                    'user' => ['attributes']
+               ]
             ],
             'links',
             'meta'
@@ -247,7 +294,16 @@ class ControllerCardTest extends TestCase
         $response->assertStatus(201);
         $response->assertJsonStructure([
             'data' => [
-                'attributes' => $this->card_attributes
+                'attributes' => $this->card_attributes,
+                'card_details' => [
+                    '*' => [
+                        'attributes',
+                        'exercise' => [
+                            'attributes'
+                        ]
+                    ]
+                ],
+                'user' => ['attributes']
             ]
         ]);
         $this->assert_stored_card_equals_card_data($stored_data, $card_data);
@@ -272,7 +328,16 @@ class ControllerCardTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'data' => [
-                'attributes' => $this->card_attributes
+                'attributes' => $this->card_attributes,
+                'card_details' => [
+                    '*' => [
+                        'attributes',
+                        'exercise' => [
+                            'attributes'
+                        ]
+                    ]
+                ],
+                'user' => ['attributes']
             ]
         ]);
         $this->assert_stored_card_equals_card_data($stored_data, $card_data);
@@ -370,7 +435,18 @@ class ControllerCardTest extends TestCase
         
         $response->assertJsonStructure([
             'data' => [
-               ['attributes' => $this->card_attributes]
+                [
+                    'attributes' => $this->card_attributes,
+                    'card_details' => [
+                        '*' => [
+                            'attributes',
+                            'exercise' => [
+                                'attributes'
+                            ]
+                        ]
+                    ],
+                    'user' => ['attributes']
+                ]
             ],
             'links',
             'meta'
@@ -448,7 +524,8 @@ class ControllerCardTest extends TestCase
                             'attributes'
                         ]
                     ]
-                ]
+                ],
+                'user' => [ 'attributes' ] 
             ]
         ]);
     }

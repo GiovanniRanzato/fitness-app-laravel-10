@@ -49,7 +49,7 @@ class RouteAuthTest extends TestCase
                     'role',
                     'category_id'
                 ],
-                'included'
+                'category'
             ],
             'token'
         ]);
@@ -88,7 +88,7 @@ class RouteAuthTest extends TestCase
                     'role',
                     'category_id'
                 ],
-                'included'
+                'category'
             ],
             'token'
         ]);

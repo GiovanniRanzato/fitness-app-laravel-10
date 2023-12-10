@@ -25,9 +25,9 @@ class UpdateExerciseRequest extends FormRequest
     {
         return [
             'name'        => ['string'],
-            'description' => ['string'],
-            'media_url'   => ['string'],
-            'notes'       => ['string'],
+            'description' => ['string', 'nullable'],
+            'media_url'   => ['string', 'nullable'],
+            'notes'       => ['string', 'nullable'],
             'creator_user_id' => ['exists:users,id'],
         ];
     }

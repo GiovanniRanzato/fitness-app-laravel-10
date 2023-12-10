@@ -29,9 +29,13 @@ class CardController extends Controller
             return new Response(['message' => $access->message()], 401);
 
         $filter = new CardFilter();
+
         $filterItems = $filter->transform($request);
-        $results = Card::permission($request->user())->where($filterItems);
-        return new CardCollection($results->paginate()->appends($request->query()));
+        $paginator = Card::permission($request->user())->where($filterItems)->paginate();
+        $results = $paginator->getCollection()->loadMissing('user', 'cardDetails.exercise');
+        $paginator->setCollection($results);
+
+        return new CardCollection($paginator->appends($request->query()));
     }
 
     /**
@@ -49,7 +53,9 @@ class CardController extends Controller
         $data = $request->all();
         $data['creator_user_id'] = $request->user()->id;
 
-        return new CardResource(Card::create($data));
+        $card = Card::create($data);
+        $card->loadMissing('user', 'cardDetails.exercise');
+        return new CardResource($card);
     }
 
     /**
@@ -68,6 +74,7 @@ class CardController extends Controller
         if (!$access->allowed()) 
             return new Response(['message' => $access->message()], 401);
   
+        $requestCard->loadMissing('user', 'cardDetails.exercise');
         return new CardResource($requestCard); 
     }
 
@@ -84,7 +91,11 @@ class CardController extends Controller
         if (!$access->allowed()) 
             return new Response(['message' => $access->message()], 401);
 
-        return new CardResource($card->update($request->all()) ? $card : []);
+        
+        $card->update($request->all());
+        $card->loadMissing('user', 'cardDetails.exercise');
+
+        return new CardResource($card);
     }
 
     /**
@@ -99,5 +110,7 @@ class CardController extends Controller
         if (!$access->allowed()) 
             return new Response(['message' => $access->message()], 401);
 
+        $card->delete();
+        return new Response(['message' => 'deleted'], 200);
     }
 }

@@ -97,7 +97,7 @@ class ControllerUserTest extends TestCase
             'data' => [
                 [ 
                     'attributes' => $this->user_attributes,
-                    'included'
+                    'category'
                 ]
             ],
         ]);
@@ -123,7 +123,7 @@ class ControllerUserTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 'attributes' => $this->user_attributes,
-                'included'
+                'category'
             ],
         ]);
     }
@@ -167,7 +167,7 @@ class ControllerUserTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 'attributes' => $this->user_attributes,
-                'included'
+                'category'
             ]
         ]);
      
@@ -207,7 +207,7 @@ class ControllerUserTest extends TestCase
             'data' => [
                 [
                     'attributes' => $this->user_attributes,
-                    'included'
+                    'category'
                 ]
             ]
         ]);
@@ -280,7 +280,7 @@ class ControllerUserTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 'attributes' => $this->user_attributes,
-                'included'
+                'category'
             ]
         ]);
 
@@ -360,7 +360,7 @@ class ControllerUserTest extends TestCase
             'data' => [
                 [
                     'attributes' => $this->user_attributes,
-                    'included'
+                    'category'
                 ]
             ]
         ]);

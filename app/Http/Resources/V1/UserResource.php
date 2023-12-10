@@ -49,12 +49,9 @@ class UserResource extends JsonResource
                 'avatar'      => $this->avatar,
 
             ],
-            'included' => [
-                'category' => new CategoryResource($this->category)
-                // cards
-                // 'media_url' => $media_url
-            ]
-           
+            'category' => new CategoryResource($this->category)
+            // cards
+            // 'media_url' => $media_url
         ];
     }
 

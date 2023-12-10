@@ -55,5 +55,8 @@ class CardDetailController extends Controller
         $access = Gate::inspect('card-detail-delete', $cardDetail);
         if (!$access->allowed()) 
             return new Response(['message' => $access->message()], 401);
+
+        $cardDetail->delete();
+        return new Response(['message' => 'deleted'], 200);
     }
 }
