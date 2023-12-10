@@ -24,7 +24,7 @@ class ExerciseController extends Controller
      */
     public function index(Request $request)
     {
-        $access = Gate::inspect('card-view-any');
+        $access = Gate::inspect('exercise-view-any');
         if (!$access->allowed()) 
             return new Response(['message' => $access->message()], 401);
 
@@ -51,6 +51,25 @@ class ExerciseController extends Controller
         $data['creator_user_id'] = $request->user()->id;
 
         return new ExerciseResource(Exercise::create($data));
+    }
+
+        /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(int $id)
+    {
+        $requestExercise = Exercise::find($id);
+        if (!$requestExercise)
+            return new Response(['message' => 'Not Found.'], 404);
+
+        $access = Gate::inspect('exercise-view', $requestExercise);
+        if (!$access->allowed()) 
+            return new Response(['message' => $access->message()], 401);
+  
+        return new ExerciseResource($requestExercise); 
     }
 
     /**
