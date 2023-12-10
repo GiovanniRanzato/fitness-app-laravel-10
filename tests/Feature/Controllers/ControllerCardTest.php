@@ -122,6 +122,28 @@ class ControllerCardTest extends TestCase
         ]);
     }
 
+    public function test_admin_should_filter_cards_data()
+    {
+        $admin = User::factory()->create(['role' => '1']);
+        $token = $admin->createAuthToken();
+        $card_tosearch = Card::factory()->create(['user_id' => $admin->id, 'creator_user_id' => $admin->id]);
+        $card_2 = Card::factory()->create(['user_id' => $admin->id, 'creator_user_id' => $admin->id]);
+
+        $response = $this->get('api/v1/cards/?name[like]='.$card_tosearch->name, ['Accept' => 'application/json', 'Authorization' => 'Bearer ' . $token]);
+        $card_tosearch->delete();
+        $card_2->delete();
+        $admin->tokens()->delete();
+        $admin->delete();
+
+        $response->assertStatus(200);
+        $results = $response->json();
+
+        foreach($results['data'] as $result) {
+            $this->assertTrue(strpos($result['attributes']['name'], $card_tosearch->name) !== false);
+        }
+ 
+    }
+
     public function test_admin_should_create_cards()
     {
         $admin = User::factory()->create(['role' => '1']);

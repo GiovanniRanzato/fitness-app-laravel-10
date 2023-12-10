@@ -21,9 +21,12 @@ class ExercisePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user, Exercise $exercise)
+    public function viewAny(User $user)
     {
-        return false;
+        if($user) 
+            return Response::allow();
+
+        return Response::deny($this->messages['not_allowed']);
     }
 
     /**
@@ -33,9 +36,15 @@ class ExercisePolicy
      * @param  \App\Models\exercises  $exercises
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user)
+    public function view(User $user, Exercise $exercise)
     {
-        return false;
+        if($user->isAdmin()) 
+            return Response::allow();
+        
+        if($user->id === $exercise->creator_user_id)
+            return Response::allow();
+
+        return Response::deny($this->messages['not_allowed']);
     }
 
     /**
