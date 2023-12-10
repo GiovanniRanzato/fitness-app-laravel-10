@@ -156,7 +156,6 @@ class ControllerCardDetailTest extends TestCase
        
         $admin->tokens()->delete();
         $admin->delete();
-        $stored_data->delete();
         $exercise->delete();
         $card->delete();
 
@@ -252,7 +251,6 @@ class ControllerCardDetailTest extends TestCase
        
         $trainer->tokens()->delete();
         $trainer->delete();
-        $stored_data->delete();
         $exercise->delete();
         $card->delete();
 

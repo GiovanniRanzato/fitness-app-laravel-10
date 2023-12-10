@@ -70,6 +70,35 @@ class ControllerExerciseTest extends TestCase
         $this->assertTrue(count($response->json()['data']) >= 2);
     }
 
+    public function test_admin_should_filter_exercises()
+    {
+        $admin = User::factory()->create(['role' => '1']);
+        $trainer = User::factory()->create(['role' => '2']);
+        $token = $admin->createAuthToken();
+        $exercise_to_search = Exercise::factory()->create(['creator_user_id' => $admin->id]);
+        $exercise2 = Exercise::factory()->create(['creator_user_id' => $trainer->id]);
+
+
+        $response = $this->get('api/v1/exercises/?name[like]='.$exercise_to_search->name, ['Accept' => 'application/json', 'Authorization' => 'Bearer ' . $token]);
+        
+        $stored_data = Exercise::all();
+        
+        $stored_data->each(function ($item) {
+            $item->delete();
+        });
+        $admin->tokens()->delete();
+        $admin->delete();
+        $trainer->tokens()->delete();
+        $trainer->delete();
+
+        $response->assertStatus(200);
+        $results = $response->json();
+
+        foreach($results['data'] as $result) {
+            $this->assertTrue(strpos($result['attributes']['name'], $exercise_to_search->name) !== false);
+        }
+    }
+
     public function test_admin_should_create_exercises()
     {
         $admin = User::factory()->create(['role' => '1']);

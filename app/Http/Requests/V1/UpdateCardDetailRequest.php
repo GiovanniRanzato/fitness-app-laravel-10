@@ -24,11 +24,11 @@ class UpdateCardDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            'quantity'       => ['integer'],
-            'time_duration'  => ['integer'],
-            'time_recovery'  => ['integer'],
-            'weight'         => ['integer'],
-            'notes'          => ['string'],
+            'quantity'       => ['integer','nullable'],
+            'time_duration'  => ['integer','nullable'],
+            'time_recovery'  => ['integer','nullable'],
+            'weight'         => ['integer','nullable'],
+            'notes'          => ['string','nullable'],
             'card_id'        => ['exists:cards,id'],
             'exercise_id'    => ['exists:exercises,id'],
         ];

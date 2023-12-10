@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Models\Exercise;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Filters\V1\ExerciseFilter;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\V1\ExerciseResource;
@@ -27,8 +28,11 @@ class ExerciseController extends Controller
         if (!$access->allowed()) 
             return new Response(['message' => $access->message()], 401);
 
-        $results = Exercise::permission($request->user());
-        return new ExerciseCollection($results->paginate()->appends($request->query()));
+        $filter = new ExerciseFilter();
+
+        $filterItems = $filter->transform($request);
+        $paginator = Exercise::permission($request->user())->where($filterItems)->paginate();
+        return new ExerciseCollection($paginator->appends($request->query()));
     }
     
     /**
