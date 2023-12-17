@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173', 'http://localhost:4173'],
+    'allowed_origins' => [env('FE_BASE_URL')],
 
     'allowed_origins_patterns' => [],
 
