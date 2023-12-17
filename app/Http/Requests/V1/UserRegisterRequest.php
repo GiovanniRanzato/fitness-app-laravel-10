@@ -27,6 +27,7 @@ class UserRegisterRequest extends FormRequest
             'name' => ['required','string'],
             'email' => ['required', 'email'],
             'password' => ['required'],
+            'accepted_terms_of_service_id' => ['exists:terms_of_services,id']
         ];
     }
 }
