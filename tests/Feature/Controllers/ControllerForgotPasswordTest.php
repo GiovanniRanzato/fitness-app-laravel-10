@@ -22,7 +22,7 @@ class SampleMail extends Mailable
     }
 }
 
-class ForgotPasswordControllerTest extends TestCase
+class ControllerForgotPasswordTest extends TestCase
 {
     /**
      * A basic feature test example.
