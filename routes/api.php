@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\Api\V1\AuthController;
-use App\Http\Controllers\Api\V1\CardController;
-use App\Http\Controllers\Api\V1\CardDetailController;
-use App\Http\Controllers\Api\V1\CategoryController;
-use App\Http\Controllers\Api\V1\ExerciseController;
-use App\Http\Controllers\Api\V1\UserController;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\CardController;
+use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\CategoryController;
+
+use App\Http\Controllers\Api\V1\ExerciseController;
+use App\Http\Controllers\Api\V1\CardDetailController;
+use App\Http\Controllers\Api\V1\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,11 @@ Route::get('test', function () {
 Route::group(['prefix' => 'v1', 'middleware' => [\Illuminate\Http\Middleware\HandleCors::class]], function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
-    
+
+    Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('password/reset', [ForgotPasswordController::class, 'reset'])->name('password.reset');
+    Route::post('password/update', [ForgotPasswordController::class, 'passwordUpdate'])->name('password.update');
+
 });
 
 // api/v1
