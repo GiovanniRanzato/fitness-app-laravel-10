@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\CategoryController;
 
 use App\Http\Controllers\Api\V1\ExerciseController;
 use App\Http\Controllers\Api\V1\CardDetailController;
+use App\Http\Controllers\Api\V1\TermsOfServiceController;
 use App\Http\Controllers\Api\V1\ForgotPasswordController;
 
 /*
@@ -29,6 +30,8 @@ Route::get('test', function () {
 // api/v1
 // Public  Routes
 Route::group(['prefix' => 'v1', 'middleware' => [\Illuminate\Http\Middleware\HandleCors::class]], function () {
+    Route::get('terms-of-service/latest', [TermsOfServiceController::class, 'latest'])->name('terms-of-service.latest');
+
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
 

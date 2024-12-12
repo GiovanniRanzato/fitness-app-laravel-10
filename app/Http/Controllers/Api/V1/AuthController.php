@@ -6,10 +6,12 @@ namespace App\Http\Controllers\Api\V1;
 use Exception;
 
 use App\Models\User;
+use App\Models\Consent;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
+use App\Models\TermsOfService;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -29,7 +31,6 @@ class AuthController extends Controller
     public function register (UserRegisterRequest $request) {
         try {
             $userData = $request->all();
-      
 
             $check_user_exist = User::where('email', $userData['email'])->first();
             if($check_user_exist)
@@ -40,6 +41,9 @@ class AuthController extends Controller
             $userData['password'] = bcrypt($userData['password']);
             $user = User::create($userData);
             $token= $user->createAuthToken();
+
+            $termsOfService = TermsOfService::find($userData["accepted_terms_of_service_id"]);
+            $consent = Consent::create(["user_id" => $user->id, "text" => $termsOfService ->text]);
 
             $response = [
                 'data' => new UserResource($user),
